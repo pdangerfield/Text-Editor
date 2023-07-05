@@ -12,7 +12,6 @@ module.exports = () => {
     entry: {
       main: './src/js/index.js',
       install: './src/js/install.js',
-      header: './src/js/header.js',
       editor: './src/js/editor.js'
     },
     output: {
@@ -25,6 +24,10 @@ module.exports = () => {
         title: 'JATE'
       }),
       new GenerateSW(),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'service-worker.js',
+      }),
       new WebpackPwaManifest({
         name: 'My Progressive Web App',
         inject: true,
@@ -35,18 +38,12 @@ module.exports = () => {
         publicPath: '/',
         icons: [
           {
-            src: path.resolve("./favicon.ico"),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
-            destination: path.join("Assets", "icons")
+            destination: path.join("assets", "icons")
           }          
         ]
-      }),
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'service-worker-js',
-      }),
-
-      
+      }),      
     ],
 
     module: {
